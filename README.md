@@ -12,4 +12,4 @@ Lots of this was butchered from [o365enum](https://bitbucket.org/grimhacker/offi
 
 ## Authors
 
-Code by [Rados Zivkovic](https://github.com/zsodar/) and [Mayank Mechra](https://github.com/FlAm3R1D3R)
+Code by [Rados Zivkovic](https://github.com/zsodar/) and [Mayank Mehra](https://github.com/FlAm3R1D3R)
