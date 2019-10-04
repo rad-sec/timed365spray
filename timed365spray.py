@@ -47,6 +47,7 @@ args = parser.parse_args()
 password_file = args.passwordList
 user_file = args.users
 output_folder = args.output
+os.makedirs(output_folder, exist_ok=True)
 output_file = os.path.join(output_folder,"outputfile.txt")
 creds_file = os.path.join(output_folder,"creds.txt")
 valid_users_file = os.path.join(output_folder,"validusers.txt")
@@ -71,13 +72,21 @@ def userPassCheck(password):
             if status == 401:
                 output.write('[+]' + " " + str(status) + " " + str(user) + " "+ str(password) + " " + 'VALID USER\n')
                 validUsers.write('[+]' + " " + str(status) + " " + str(user) + " " + str(password) + " " + 'VALID USER\n')
+                output.flush()
+                validUsers.flush()
+                os.fsync(output.fileno())
+                os.fsync(validUsers.fileno())
             elif status == 404:
                 if r.headers.get("X-CasErrorCode") == "UserNotFound":
                     pass
                     output.write('[-]' + " " + str(status) + " " + str(user) + " " + str(password) + " " + 'INVALID USER\n')
+                    output.flush()
+                    os.fsync(output.fileno())
             elif status == 403:
                 pass
                 output.write('[#]' + " " + str(status) + " " + str(user) + " " + str(password) + " " + 'VALID PASSWD 2FA - Possible False Positive\n')
+                output.flush()
+                os.fsync(output.fileno())
             elif status == 200:
                 print('[!]' + " " + str(status) + " " + str(user) + " " + str(password) + " " + 'VALID LOGIN\n' )
                 output.write('[!]' + " " + str(status) + " " + str(user) + " " + str(password) + " " + 'VALID LOGIN\n')
@@ -85,8 +94,14 @@ def userPassCheck(password):
                 print('[!]', status, user, password, 'VALID LOGIN')
                 output.write('[!]' + " " + str(status) + " " + str(user) + " " + str(password) + " " + 'VALID LOGIN\n')
                 creds.write('[!]' + " " + str(status) + " " + str(user) + " " + str(password) + " " + 'VALID LOGIN\n')
+                output.flush()
+                os.fsync(output.fileno())
+                creds.flush()
+                os.fsync(creds.fileno())
             else:
                 output.write('[?]' + " " + str(user) + " " + str(password) + " " + 'UNKNOWN\n')
+                output.flush()
+                os.fsync(output.fileno())
     open_userfile.close
     
 # Run through users
