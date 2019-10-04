@@ -58,9 +58,6 @@ url = "https://outlook.office365.com/Microsoft-Server-ActiveSync"
 # Run a password against all users 
 
 def userPassCheck(password):
-    output = open(output_file,"w+")
-    creds = open(creds_file,"w+")
-    validUsers = open(valid_users_file,"w+")
 
     with open(user_file, 'r') as open_userfile:
         users = open_userfile.readlines()
@@ -91,12 +88,12 @@ def userPassCheck(password):
             else:
                 output.write('[?]' + " " + str(user) + " " + str(password) + " " + 'UNKNOWN\n')
     open_userfile.close
-    output.close()
-    creds.close()
-    validUsers.close()
     
 # Run through users
 with open(password_file, 'r',encoding='latin-1') as open_passwordfile:
+        output = open(output_file,"w+")
+        creds = open(creds_file,"w+")
+        validUsers = open(valid_users_file,"w+")
         passwords = open_passwordfile.readlines()
         for line in passwords:
                 password = line.strip()
@@ -107,6 +104,9 @@ with open(password_file, 'r',encoding='latin-1') as open_passwordfile:
                 time.sleep(interval)	
                 print('--- Waiting ', interval, ' seconds or', interval/60, ' minutes ----')
         open_passwordfile.close
+        output.close()
+        creds.close()
+        validUsers.close()
 
 
 
